@@ -1,4 +1,5 @@
 ﻿using AuthService.Entities;
+using AuthService.Services.Interfaces;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace AuthService.Services
 {
-    public sealed class TokenProvider(IConfiguration configuration)
+    public sealed class TokenProvider(IConfiguration configuration) : ITokenProvider
     {
         public string Create(User user)
         {
@@ -33,7 +34,7 @@ namespace AuthService.Services
 
             string token = handler.CreateToken(tokenDescriptor);
 
-            return token; 
+            return token;
         }
     }
 }

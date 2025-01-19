@@ -1,6 +1,7 @@
 using AuthService.Data;
 using AuthService.Repositories;
 using AuthService.Services;
+using AuthService.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +13,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
+
+
+//services injetion
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddSingleton<TokenProvider>();
-builder.Services.AddScoped<LoginUser>();
+builder.Services.AddSingleton<ITokenProvider,TokenProvider>();
+builder.Services.AddScoped<ILoginUser, LoginUser>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
