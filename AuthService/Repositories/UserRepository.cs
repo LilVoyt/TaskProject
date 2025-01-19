@@ -9,7 +9,7 @@ namespace AuthService.Repositories
     {
         //public async Task<Guid> Post(RegisterUser.Request request)
         //{
-            
+
         //}
 
 
