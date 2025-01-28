@@ -2,6 +2,8 @@ using AuthService.Data;
 using AuthService.Repositories;
 using AuthService.Services;
 using AuthService.Services.Interfaces;
+using Consumers;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,28 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddMassTransit(x =>
+{
+    x.SetKebabCaseEndpointNameFormatter();
+
+    x.AddConsumer<UserRoleChangedConsumer>();
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.ReceiveEndpoint("user-role-changed", e =>
+        {
+            e.ConfigureConsumer<UserRoleChangedConsumer>(context);
+        });
+    });
+
+});
 
 
 //services injetion

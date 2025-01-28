@@ -10,5 +10,6 @@ namespace AuthService.Repositories
         Task<bool> IsEmailRegisteredAsync(string email);
         Task<bool> IsUserExistAsync(string name);
         Task<User> GetUserByNameAsync(string name);
+        Task UpdateUserRoleAsync(Guid userId, string newRole);
     }
 }
