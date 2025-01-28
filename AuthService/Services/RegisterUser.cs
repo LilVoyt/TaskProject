@@ -1,9 +1,11 @@
-﻿using AuthService.Repositories;
+﻿using AuthService.Entities;
+using AuthService.Repositories;
 using AuthService.Services.Interfaces;
+using AutoMapper;
 
 namespace AuthService.Services
 {
-    public sealed class RegisterUser(IUserRepository userRepository, ITokenProvider tokenProvider)
+    public sealed class RegisterUser(IUserRepository userRepository, ITokenProvider tokenProvider, IMapper mapper) : IRegisterUser
     {
         public sealed record Request(string Name, string Email, string Password, string FirstName, string LastName);
 
@@ -21,7 +23,13 @@ namespace AuthService.Services
                 throw new InvalidOperationException("Email was registered before");
             }
 
-            return string.Empty;
+            var user = mapper.Map<User>(request);
+
+            await userRepository.Add(user);
+
+            var jwt = tokenProvider.Create(user);
+
+            return jwt;
         }
     }
 }

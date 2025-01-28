@@ -20,6 +20,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<ITokenProvider,TokenProvider>();
 builder.Services.AddScoped<ILoginUser, LoginUser>();
+builder.Services.AddScoped<IRegisterUser, RegisterUser>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

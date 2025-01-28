@@ -6,20 +6,29 @@ namespace AuthService.Controllers
 {
     [Route("auth")]
     [ApiController]
-    public class AuthController(ILoginUser loginUser) : ControllerBase
+    public class AuthController : ControllerBase
     {
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUser.Request request)
+        public ILoginUser LoginUser { get; set; }
+        public IRegisterUser RegisterUser { get; set; }
+        public AuthController(ILoginUser loginUser, IRegisterUser registerUser)
         {
-            string jwt = await loginUser.Handle(request);
-            return Ok(jwt);
+            LoginUser = loginUser;
+            RegisterUser = registerUser;
         }
 
-        //[HttpPost("regiser")]
-        //public async Task<IActionResult> Register()
+        //[HttpPost("login")]
+        //public async Task<IActionResult> Login(LoginUser.Request request)
         //{
-
+        //    string jwt = await LoginUser.Handle(request);
+        //    return Ok(jwt);
         //}
+
+        [HttpPost("else")]
+        public async Task<IActionResult> Register(RegisterUser.Request request) //here is problems with a roles while saving
+        {
+            string jwt = await RegisterUser.Handle(request);
+            return Ok(jwt); 
+        }
 
     }
 }
