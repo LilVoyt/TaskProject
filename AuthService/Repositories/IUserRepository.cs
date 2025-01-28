@@ -6,9 +6,9 @@ namespace AuthService.Repositories
 {
     public interface IUserRepository
     {
-        Task<Guid> Add(User request);
-        Task<bool> IsEmailRegistered(string email);
-        Task<bool> IsUserExist(string name);
-        Task<User> GetUserByName(string name);
+        Task<Guid> AddAsync(User request);
+        Task<bool> IsEmailRegisteredAsync(string email);
+        Task<bool> IsUserExistAsync(string name);
+        Task<User> GetUserByNameAsync(string name);
     }
 }

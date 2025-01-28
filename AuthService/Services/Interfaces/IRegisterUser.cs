@@ -2,6 +2,6 @@
 {
     public interface IRegisterUser
     {
-        Task<string> Handle(RegisterUser.Request request);
+        Task<string> Handle(RegisterRequest request);
     }
 }

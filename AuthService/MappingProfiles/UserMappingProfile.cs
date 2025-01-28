@@ -8,7 +8,7 @@ namespace AuthService.MappingProfiles
     {
         public UserMappingProfile()
         {
-            CreateMap<RegisterUser.Request, User>()
+            CreateMap<RegisterRequest, User>()
                 .ForMember(dest => dest.Id, opt =>
                 opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.Name, opt =>

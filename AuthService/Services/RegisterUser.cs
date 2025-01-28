@@ -5,19 +5,17 @@ using AutoMapper;
 
 namespace AuthService.Services
 {
-    public sealed class RegisterUser(IUserRepository userRepository, ITokenProvider tokenProvider, IMapper mapper) : IRegisterUser
+    public sealed class RegisterUser(IUserRepository userRepository, IRoleRepository roleRepository, ITokenProvider tokenProvider, IMapper mapper) : IRegisterUser
     {
-        public sealed record Request(string Name, string Email, string Password, string FirstName, string LastName);
-
-        public async Task<string> Handle(Request request)
+        public async Task<string> Handle(RegisterRequest request)
         {
-            bool isExist = await userRepository.IsUserExist(request.Name);
+            bool isExist = await userRepository.IsUserExistAsync(request.Name);
             if (isExist)
             {
                 throw new InvalidOperationException("User is registered before");
             }
 
-            bool isEmailRegistered = await userRepository.IsEmailRegistered(request.Email);
+            bool isEmailRegistered = await userRepository.IsEmailRegisteredAsync(request.Email);
             if (isEmailRegistered)
             {
                 throw new InvalidOperationException("Email was registered before");
@@ -25,7 +23,9 @@ namespace AuthService.Services
 
             var user = mapper.Map<User>(request);
 
-            await userRepository.Add(user);
+            user.RoleId = await roleRepository.GetRoleIdByNameAsync("User");
+
+            await userRepository.AddAsync(user);
 
             var jwt = tokenProvider.Create(user);
 

@@ -18,6 +18,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 //services injetion
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddSingleton<ITokenProvider,TokenProvider>();
 builder.Services.AddScoped<ILoginUser, LoginUser>();
 builder.Services.AddScoped<IRegisterUser, RegisterUser>();

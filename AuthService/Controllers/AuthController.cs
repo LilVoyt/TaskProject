@@ -16,15 +16,15 @@ namespace AuthService.Controllers
             RegisterUser = registerUser;
         }
 
-        //[HttpPost("login")]
-        //public async Task<IActionResult> Login(LoginUser.Request request)
-        //{
-        //    string jwt = await LoginUser.Handle(request);
-        //    return Ok(jwt);
-        //}
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            string jwt = await LoginUser.Handle(request);
+            return Ok(jwt);
+        }
 
-        [HttpPost("else")]
-        public async Task<IActionResult> Register(RegisterUser.Request request) //here is problems with a roles while saving
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterRequest request) //here is problems with a roles while saving
         {
             string jwt = await RegisterUser.Handle(request);
             return Ok(jwt); 

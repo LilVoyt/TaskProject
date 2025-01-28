@@ -2,6 +2,6 @@
 {
     public interface ILoginUser
     {
-        Task<string> Handle(LoginUser.Request request);
+        Task<string> Handle(LoginRequest request);
     }
 }
