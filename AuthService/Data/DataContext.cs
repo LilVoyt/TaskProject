@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IDataContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -18,21 +18,21 @@ namespace AuthService.Data
                 entity.HasKey(x => x.Id);
 
                 entity.Property(x => x.Name)
-                      .IsRequired() 
+                      .IsRequired()
                       .HasMaxLength(100);
 
                 entity.Property(x => x.Email)
-                      .IsRequired() 
+                      .IsRequired()
                       .HasMaxLength(200);
 
                 entity.Property(x => x.Password)
-                      .IsRequired(); 
+                      .IsRequired();
 
                 entity.Property(x => x.RoleId)
-                      .IsRequired(); 
+                      .IsRequired();
 
                 entity.HasIndex(x => x.Name)
-                      .IsUnique(); 
+                      .IsUnique();
 
                 entity.HasOne(x => x.Role)
                       .WithMany(x => x.Users)
@@ -40,17 +40,17 @@ namespace AuthService.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            
+
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.HasKey(x => x.Id);
 
                 entity.Property(x => x.Name)
-                      .IsRequired() 
+                      .IsRequired()
                       .HasMaxLength(50);
 
                 entity.HasIndex(x => x.Name)
-                      .IsUnique(); 
+                      .IsUnique();
             });
         }
     }

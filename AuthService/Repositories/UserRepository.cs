@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Repositories
 {
-    public class UserRepository(DataContext dataContext, IMapper mapper) : IUserRepository
+    public class UserRepository(IDataContext dataContext, IMapper mapper) : IUserRepository
     {
         public async Task<Guid> AddAsync(User user)
         {
-            await dataContext.AddAsync(user);
+            await dataContext.Users.AddAsync(user);
             await dataContext.SaveChangesAsync();
             return user.Id;
         }

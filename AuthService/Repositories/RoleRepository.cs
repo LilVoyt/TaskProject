@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Repositories
 {
-    public class RoleRepository(DataContext dataContext) : IRoleRepository
+    public class RoleRepository(IDataContext dataContext) : IRoleRepository
     {
         public async Task<Guid> GetRoleIdByNameAsync(string name)
         {

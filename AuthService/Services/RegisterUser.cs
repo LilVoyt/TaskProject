@@ -21,9 +21,9 @@ namespace AuthService.Services
                 throw new InvalidOperationException("Email was registered before");
             }
 
-            var user = mapper.Map<User>(request);
+            var roleId = await roleRepository.GetRoleIdByNameAsync("User");
 
-            user.RoleId = await roleRepository.GetRoleIdByNameAsync("User");
+            var user = mapper.Map<User>(request, opts => opts.Items["RoleId"] = roleId);
 
             await userRepository.AddAsync(user);
 

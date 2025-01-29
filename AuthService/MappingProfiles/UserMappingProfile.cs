@@ -20,7 +20,11 @@ namespace AuthService.MappingProfiles
                 .ForMember(dest => dest.FirstName, opt =>
                     opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt =>
-                    opt.MapFrom(src => src.LastName));
+                    opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.RoleId, opt =>
+                    opt.MapFrom((src, dest, destMember, context) => context.Items["RoleId"]))
+                .ForMember(dest => dest.CreatedAt, opt =>
+                    opt.MapFrom(src => DateTime.UtcNow));
         }
     }
 }
