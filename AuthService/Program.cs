@@ -4,7 +4,10 @@ using AuthService.Services;
 using AuthService.Services.Interfaces;
 using Consumers;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,10 +43,32 @@ builder.Services.AddMassTransit(x =>
 });
 
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(option =>
+{
+    option.RequireHttpsMetadata = false;
+    option.SaveToken = true;
+    option.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("myHardSecret7asdasdasdasd7777777777")),
+        ValidateAudience = false,
+        ValidateIssuer = false,
+    };
+});
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin")
+    );
+
+
 //services injetion
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddSingleton<ITokenProvider,TokenProvider>();
+builder.Services.AddTransient<ITokenProvider,TokenProvider>();
 builder.Services.AddScoped<ILoginUser, LoginUser>();
 builder.Services.AddScoped<IRegisterUser, RegisterUser>();
 

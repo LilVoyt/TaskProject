@@ -4,6 +4,6 @@ namespace AuthService.Services.Interfaces
 {
     public interface ITokenProvider
     {
-        string Create(User user);
+        Task<string> Create(User user);
     }
 }

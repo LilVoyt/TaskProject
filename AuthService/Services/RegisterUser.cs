@@ -27,7 +27,7 @@ namespace AuthService.Services
 
             await userRepository.AddAsync(user);
 
-            var jwt = tokenProvider.Create(user);
+            var jwt = await tokenProvider.Create(user);
 
             return jwt;
         }
