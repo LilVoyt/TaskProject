@@ -1,5 +1,6 @@
 ﻿using AuthService.Services;
 using AuthService.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.Controllers
@@ -17,6 +18,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost("login")]
+        //[Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             string jwt = await LoginUser.Handle(request);

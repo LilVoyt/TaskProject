@@ -18,7 +18,7 @@ namespace AuthService.Services
 
             User user = await userRepository.GetUserByNameAsync(request.Name);
 
-            string token = tokenProvider.Create(user);
+            string token = await tokenProvider.Create(user);
 
             return token;
         }

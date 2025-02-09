@@ -1,4 +1,5 @@
 ﻿using AuthService.Data;
+using AuthService.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Repositories
@@ -9,6 +10,12 @@ namespace AuthService.Repositories
         {
             var role = await dataContext.Roles.FirstOrDefaultAsync(x => x.Name == name);
             return role?.Id ?? throw new Exception($"Role '{name}' not found");
+        }
+
+        public async Task<Role> GetRoleByIdAsync(Guid roleId)
+        {
+            var role = await dataContext.Roles.FirstOrDefaultAsync(x => x.Id == roleId);
+            return role;
         }
     }
 }
