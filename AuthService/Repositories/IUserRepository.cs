@@ -7,6 +7,7 @@ namespace AuthService.Repositories
     public interface IUserRepository
     {
         Task<Guid> AddAsync(User user);
+        Task<bool> IsUserIdExistAsync(Guid id);
         Task<bool> IsEmailRegisteredAsync(string email);
         Task<bool> IsUserExistAsync(string name);
         Task<User> GetUserByNameAsync(string name);

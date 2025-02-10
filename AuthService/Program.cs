@@ -1,13 +1,16 @@
+using AuthService.Consumers;
 using AuthService.Data;
 using AuthService.Repositories;
 using AuthService.Services;
 using AuthService.Services.Interfaces;
 using Consumers;
+using Contracts;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,9 @@ builder.Services.AddMassTransit(x =>
     x.SetKebabCaseEndpointNameFormatter();
 
     x.AddConsumer<UserRoleChangedConsumer>();
+    x.AddConsumer<UserExistingCheckConsumer>();
+
+    x.AddRequestClient<UserExistingCheck>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -37,6 +43,10 @@ builder.Services.AddMassTransit(x =>
         cfg.ReceiveEndpoint("user-role-changed", e =>
         {
             e.ConfigureConsumer<UserRoleChangedConsumer>(context);
+        });
+        cfg.ReceiveEndpoint("user-existence-check", e =>
+        {
+            e.ConfigureConsumer<UserExistingCheckConsumer>(context);
         });
     });
 

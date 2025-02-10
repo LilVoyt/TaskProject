@@ -15,6 +15,10 @@ namespace AuthService.Repositories
             return user.Id;
         }
 
+        public async Task<bool> IsUserIdExistAsync(Guid id)
+        {
+            return await dataContext.Users.AnyAsync(u => u.Id == id);
+        }
 
         public async Task<bool> IsUserExistAsync(string name)
         {

@@ -17,7 +17,7 @@ namespace TaskService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTask(TaskEntity taskEntity)
+        public async Task<IActionResult> AddTask(TaskDto taskEntity)
         {
             await taskRepository.AddTaskAsync(taskEntity);
             return Ok();
